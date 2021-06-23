@@ -22,7 +22,7 @@ const average = (arr) => {
     for (let index in arr) {
       if (typeof arr[index] !== typeof saida) { return undefined; } 
       saida += arr[index]; }
+      return Math.round(saida / arr.length); 
 }
-    return Math.round(saida / arr.length); 
   console.log(average([1, 2, 3, 4, 5]));
   module.exports = average;
