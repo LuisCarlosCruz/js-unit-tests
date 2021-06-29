@@ -79,6 +79,64 @@
 // soma o preço de todos checando-os no menu e retorna o valor somado acrescido de 10%. DICA: para isso, 
 // você precisará varrer tanto o objeto da chave `food` quanto o objeto da chave `drink`.
 
-const createMenu = () => {};
+// const createMenu = () => {};
+
+const createMenu = (obj) => ({ 
+  fetchMenu: () => (obj),
+});
+
+const obj = {};
+const fetchMenu = { fetchMenu: () => (obj) };
+Object.assign(createMenu, fetchMenu);
+
+const consumption = { consumption: [] };
+Object.assign(createMenu, consumption);
+
+const orderFromMenu = (request) => {
+    createMenu.consumption.push(request);
+};
+
+const order = { order: (pedido) => orderFromMenu(pedido) };
+Object.assign(createMenu, order);
+
+function calcFood(pedidos, keys, values) {
+  let sumFood = 0;
+  pedidos.forEach((pedido) => keys.forEach((food, key) => {
+    if (food === pedido) {
+      sumFood += values[key];
+    } else {
+      sumFood += 0;
+    }
+  })); 
+  return sumFood;
+}
+
+function calcDrink(pedidos, keys, values) {
+  let sumDrink = 0;
+  pedidos.forEach((pedido) => keys.forEach((drink, key) => {
+    if (drink === pedido) {
+      sumDrink += values[key];
+    } else {
+      sumDrink += 0;
+    }
+  })); 
+  return sumDrink;
+}
+
+const pay = { pay: (menu2) => {
+  const pedidos = createMenu.consumption;
+  const menuFood = menu2.fetchMenu().food;
+  const foodKey = Object.keys(menuFood);
+  const foodValue = Object.values(menuFood);
+  const sum1 = calcFood(pedidos, foodKey, foodValue);
+  const menuDrink = menu2.fetchMenu().drink;
+  const drinkKeys = Object.keys(menuDrink);
+  const drinkValue = Object.values(menuDrink);
+  const sum2 = calcDrink(pedidos, drinkKeys, drinkValue);
+  const total = parseFloat(((sum1 + sum2) * 1.1).toFixed(2));
+  return total;
+} };
+
+Object.assign(createMenu, pay);
 
 module.exports = createMenu;
